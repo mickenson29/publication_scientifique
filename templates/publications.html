@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Publications</title>
+    <style>
+        /* Styles pour les flèches de défilement */
+        .scroll-up,
+        .scroll-down {
+            position: fixed;
+            z-index: 1;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            text-align: center;
+        }
+
+        .scroll-up {
+            top: 20px;
+            left: 20px;
+        }
+
+        .scroll-down {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .scroll-up a,
+        .scroll-down a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .scroll-up span,
+        .scroll-down span {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid #000;
+            border-bottom: 2px solid #000;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -5px;
+            margin-left: -5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Publications</h1>
+
+    <table border="1"> <!-- Ajout de bordures à la table -->
+        <tr>
+            <th>Titre</th>
+            <th>Auteurs</th>
+            <th>Année</th>
+            <th>Détails</th>
+        </tr>
+
+        {% for publication in publications %}
+            <tr>
+                <td>{{ publication.title }}</td>
+                <td>{{ publication.authors | join(', ') }}</td> <!-- Utilisation de filtres pour la liste d'auteurs -->
+                <td>{{ publication.year }}</td>
+                <td><a href="{{ url_for('show_details', publi_id=publication['_id']) }}">Détails</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <form action="/filter" method="POST">
+        <label for="author">Auteur:</label>
+        <input type="text" id="author" name="author">
+        <br>
+        <label for="date">Année:</label>
+        <input type="number" id="date" name="date">
+        <br>
+        <input type="submit" value="Filtrer">
+    </form>
+
+    <form action="/add_publication" method="post">
+    <label for="title">Titre :</label>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="author">Auteurs (séparés par des virgules) :</label>
+    <input type="text" id="author" name="authors" required><br><br>
+
+    <label for="year">Année :</label>
+    <input type="number" id="year" name="year" min="1000" max="9999" required><br><br>
+
+
+    <input type="submit" value="Ajouter la publication">
+</form>
+
+    <br>
+
+    <a href="/add_publication">Ajouter une Publication</a>
+
+    <!-- Flèche pour faire défiler vers le bas -->
+    <div class="scroll-down">
+        <a href="#bottom">
+            <span>▼</span> <!-- Remplacement du span vide par une flèche -->
+        </a>
+    </div>
+
+    <!-- Flèche pour faire défiler vers le haut -->
+    <div class="scroll-up">
+        <a href="#top">
+            <span>▲</span> <!-- Remplacement du span vide par une flèche -->
+        </a>
+    </div>
+
+    <!-- JavaScript pour faire défiler vers le haut et vers le bas -->
+    <script>
+        // Vers le haut
+        document.querySelector('.scroll-up a').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scroll({ top: 0, behavior: 'smooth' });
+        });
+
+        // Vers le bas
+        document.querySelector('.scroll-down a').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scroll({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

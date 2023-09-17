@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  # Service MongoDB
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - dblp_network
+
+  # Service Python avec Flask
+  web:
+    build: .
+    container_name: flask_app
+    command: python app.py
+    volumes:
+      - ./app.py:/app.py
+      - ./templates:/templates
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    networks:
+      - dblp_network
+
+networks:
+  dblp_network:
+    driver: bridge

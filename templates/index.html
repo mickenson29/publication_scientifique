@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Centre de recherche IA.pa2problème</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Ajoutez un fichier CSS pour le style -->
+
+</head>
+<body>
+    <header>
+        <h1>Bienvenue au Centre de recherche IA.pa2problème</h1>
+        <p>Explorez nos publications scientifiques.</p>
+    </header>
+
+    <form action="/filter" method="post">
+        <label for="author">Filtrer par Auteur:</label>
+        <input type="text" id="author" name="author" placeholder="Nom de l'auteur">
+        <label for="date">Filtrer par Date (depuis le):</label>
+        <input type="number" id="date" name="date" placeholder="Année">
+        <input type="submit" value="Filtrer">
+    </form>
+
+    <ul>
+        {% for publication in publications %}
+            <li>
+                <a href="/details/{{ publication._id }}">{{ publication.title }}</a>
+                ({{ ', '.join(publication.authors) }}, {{ publication.year }})
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/add_publication">Ajouter une Publication</a>
+
+    <footer>
+        <p>&copy; 2023 Centre de recherche IA.pa2problème</p>
+    </footer>
+
+</body>
+</html>

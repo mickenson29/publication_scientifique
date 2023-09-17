@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la Publication</title>
+</head>
+<body>
+    <h1>Détails de la Publication</h1>
+
+    <h2>{{ publication.title }}</h2>
+    <p>Auteurs: {{ ', '.join(publication.authors) }}</p>
+    <p>Année: {{ publication.year }}</p>
+    <p>Auteur: {{ publication.author }}</p>
+
+    <br>
+
+    <a href="/">Retour à la Liste des Publications</a>
+</body>
+</html>
+
